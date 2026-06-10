@@ -1,0 +1,782 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+
+  <!-- ===================== NAV ===================== -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="#" class="brand" aria-label="Drureview home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="13" x2="15" y2="13"></line><line x1="9" y1="17" x2="15" y2="17"></line></svg>
+        </span>
+        <span>Drureview</span>
+      </a>
+
+      <div class="nav-links" role="navigation">
+        <a href="#surfaces">Run it</a>
+        <a href="#benchmark">Benchmarks</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#scan">Scan</a>
+        <a href="https://github.com/bartek-filipiuk/drureview-core">Docs</a>
+      </div>
+
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+        </button>
+        <a href="mailto:filipiuk.bartek@gmail.com?subject=Drureview%20demo" class="btn btn-ghost">Book demo</a>
+        <a href="#pricing" class="btn btn-primary">
+          Get Drureview
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="status-badge">
+            <span class="pulse" aria-hidden="true"></span>
+            <strong>Launching &lt;date&gt;</strong> · One-time license · Drupal community
+          </span>
+
+          <h1>
+            AI code review for Drupal<br />
+            <span class="muted">on your hardware. Buy it once.</span>
+          </h1>
+
+          <p class="hero-sub">
+            A Drupal-aware reviewer that runs inside your network — CLI, your IDE (MCP), or as a PR bot. It knows <code class="mono">#[Hook]</code>, cache contexts, DI, and render-array XSS, and it can hand you the fix as a one-click suggestion. No subscription, no data leaving the building.
+          </p>
+
+          <div class="hero-ctas">
+            <a href="#pricing" class="btn btn-accent btn-lg">
+              Get Drureview
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+            <a href="#benchmark" class="btn btn-outline btn-lg">Read the benchmark</a>
+          </div>
+
+          <div class="hero-meta">
+            <span><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Free local core</span>
+            <span><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Buy once</span>
+            <span><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Self-hosted</span>
+          </div>
+        </div>
+
+        <div class="hero-mockup-slot">
+
+          <!-- variant: GitLab MR mockup -->
+          <div class="mr-mockup" role="img" aria-label="GitLab MR comment example">
+            <div class="mr-tab">
+              <span class="dots" aria-hidden="true"><span></span><span></span><span></span></span>
+              <span>gitlab · acme/drupal-site</span>
+              <span class="branch mono">!247 feature/user-search</span>
+              <span class="right">
+                <span class="pill-open">Open</span>
+              </span>
+            </div>
+
+            <article class="mr-comment">
+              <div class="mr-avatar" aria-hidden="true">DC</div>
+              <div class="mr-body">
+                <header class="mr-meta">
+                  <span class="name">drupal-codereviewer</span>
+                  <span class="bot">BOT</span>
+                  <span class="sep">·</span>
+                  <span>commented on <code class="mono">src/Form/UserSearchForm.php</code></span>
+                  <span class="sep">·</span>
+                  <span>2 minutes ago</span>
+                </header>
+                <p class="mr-text">
+                  <span class="sev-badge sev-critical">CRITICAL · SQL injection</span>
+                  Raw <code>$keyword</code> concatenated into <code>db_query()</code>. Bypasses Drupal's prepared-statement layer. Use a placeholder.
+                </p>
+                <div class="diff">
+                  <div class="diff-file mono">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                    src/Form/UserSearchForm.php · line 47
+                  </div>
+                  <div class="diff-row del"><span class="ln">47</span><span class="marker">-</span><span class="code">{`$result = db_query("SELECT * FROM {users} WHERE name LIKE '%" . $keyword . "%'");`}</span></div>
+                  <div class="diff-row add"><span class="ln">47</span><span class="marker">+</span><span class="code">$result = $this-&gt;database-&gt;select('users', 'u')</span></div>
+                  <div class="diff-row add"><span class="ln">48</span><span class="marker">+</span><span class="code">  -&gt;condition('name', '%' . $this-&gt;database-&gt;escapeLike($keyword) . '%', 'LIKE')</span></div>
+                  <div class="diff-row add"><span class="ln">49</span><span class="marker">+</span><span class="code">  -&gt;execute();</span></div>
+                </div>
+                <div class="mr-actions">
+                  <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><polyline points="9 17 4 12 9 7"></polyline><path d="M20 18v-2a4 4 0 0 0-4-4H4"></path></svg> Reply</a>
+                  <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><polyline points="20 6 9 17 4 12"></polyline></svg> Resolve thread</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="mr-comment">
+              <div class="mr-avatar" aria-hidden="true">DC</div>
+              <div class="mr-body">
+                <header class="mr-meta">
+                  <span class="name">drupal-codereviewer</span>
+                  <span class="bot">BOT</span>
+                  <span class="sep">·</span>
+                  <span>commented on <code class="mono">src/Controller/UserController.php</code></span>
+                  <span class="sep">·</span>
+                  <span>2 minutes ago</span>
+                </header>
+                <p class="mr-text">
+                  <span class="sev-badge sev-medium">MEDIUM · DI antipattern</span>
+                  Static <code>\Drupal::service('entity_type.manager')</code> inside controller. Inject via <code>create()</code> instead — keeps the controller testable.
+                </p>
+                <div class="mr-actions">
+                  <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><polyline points="9 17 4 12 9 7"></polyline><path d="M20 18v-2a4 4 0 0 0-4-4H4"></path></svg> Reply</a>
+                  <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><polyline points="20 6 9 17 4 12"></polyline></svg> Resolve thread</a>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <!-- variant: terminal mockup -->
+          <div class="terminal-mockup">
+            <div class="terminal-bar">
+              <span class="tdot"></span><span class="tdot"></span><span class="tdot"></span>
+              <span class="ttitle">~/drupal-site $ drupal-cr review !247</span>
+            </div>
+            <div class="terminal-body mono">
+              <div><span class="prompt">→</span> <span class="dim">Connecting to local Ollama (gemma4-12b-dcr) ……… </span><span class="ok">ok</span></div>
+              <div><span class="prompt">→</span> <span class="dim">Indexing Drupal RAG (core + 84 contrib) ……… </span><span class="ok">1,968 vectors</span></div>
+              <div><span class="prompt">→</span> <span class="dim">Reviewing 3 changed files (412 LOC) ……… </span><span class="ok">28.4s</span></div>
+              <div style="height:10px"></div>
+              <div><span class="err">●</span> <span class="err">CRITICAL</span> <span class="dim">src/Form/UserSearchForm.php:47</span></div>
+              <div>&nbsp;&nbsp;<span class="dim">SQL injection — raw concat into db_query()</span></div>
+              <div>&nbsp;&nbsp;<span class="arrow">└</span> <span class="dim">use $this-&gt;database-&gt;select() with placeholder</span></div>
+              <div style="height:8px"></div>
+              <div><span class="warn">●</span> <span class="warn">MEDIUM</span> <span class="dim">src/Controller/UserController.php:22</span></div>
+              <div>&nbsp;&nbsp;<span class="dim">DI antipattern — \Drupal::service() in controller</span></div>
+              <div><span class="warn">●</span> <span class="warn">MEDIUM</span> <span class="dim">src/Plugin/Block/StatsBlock.php:61</span></div>
+              <div>&nbsp;&nbsp;<span class="dim">missing #cache.contexts on user-specific render</span></div>
+              <div style="height:10px"></div>
+              <div><span class="dim">Findings posted to GitLab MR !247 (2 critical, 4 medium, 1 low)</span></div>
+            </div>
+          </div>
+
+          <!-- variant: diff-only mockup -->
+          <div class="diff-only-mockup">
+            <div class="diff" style="margin:0;border-radius:0">
+              <div class="diff-file mono">src/Form/UserSearchForm.php · line 47</div>
+              <div class="diff-row del"><span class="ln">47</span><span class="marker">-</span><span class="code">{`$result = db_query("SELECT * FROM {users} WHERE name LIKE '%" . $keyword . "%'");`}</span></div>
+              <div class="diff-row add"><span class="ln">47</span><span class="marker">+</span><span class="code">$result = $this-&gt;database-&gt;select('users', 'u')</span></div>
+              <div class="diff-row add"><span class="ln">48</span><span class="marker">+</span><span class="code">  -&gt;condition('name', '%' . $this-&gt;database-&gt;escapeLike($keyword) . '%', 'LIKE')</span></div>
+              <div class="diff-row add"><span class="ln">49</span><span class="marker">+</span><span class="code">  -&gt;execute();</span></div>
+            </div>
+            <div class="annotation">
+              <span class="sev-badge sev-critical">CRITICAL</span>
+              <div>
+                <strong>SQL injection</strong> — raw <code class="mono">$keyword</code> concatenated into <code class="mono">db_query()</code>.
+                Use the database service with a placeholder so Drupal's prepared statements escape it for you.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===== Trust strip (right under hero) ===== -->
+      <div class="container">
+        <div class="trust">
+          <p class="trust-label">In production with beta partners across these sectors — logos coming after public launch</p>
+          <div class="trust-row">
+            <div class="trust-slot">Drupal agency</div>
+            <div class="trust-slot">University</div>
+            <div class="trust-slot">Government</div>
+            <div class="trust-slot">Healthcare</div>
+            <div class="trust-slot">Finance</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================== PROBLEMS ===================== -->
+    <section id="problems">
+      <div class="container">
+        <span class="section-label">Why teams ship this</span>
+        <h2 class="section-title">Three problems generic AI reviewers miss on Drupal.</h2>
+        <p class="section-lede">CodeRabbit / Greptile / Copilot are trained on a generic corpus. They don't know <code class="mono">#[Hook]</code>, cache contexts, or Drupal's service container — so they either silently pass or hallucinate.</p>
+
+        <div class="problem-grid">
+          <article class="card reveal">
+            <div class="card-icon rose" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <h3>Review queue bottleneck</h3>
+            <p>Senior devs spend 6–9 hrs/week reviewing routine MRs. By the time they get to yours, the context is gone and the comment is "LGTM, ship it."</p>
+            <div class="micro">
+              <div class="micro-row"><span class="m">›</span><span class="c">42 open MRs · waiting for tech lead</span></div>
+              <div class="micro-row"><span class="m">›</span><span class="c">avg time to first review: 2.3 days</span></div>
+              <div class="micro-row add"><span class="m">+</span><span class="c">first AI review: &lt;30s, full diff</span></div>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <div class="card-icon amber" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            </div>
+            <h3>D11.1+ migration burden</h3>
+            <p>Hook attributes, OOP plugins, deprecated <code class="mono">drupal_get_path()</code>. The lint rules catch some — but missing them in review costs a sprint of refactor later.</p>
+            <div class="micro">
+              <div class="micro-row del"><span class="m">−</span><span class="c">function my_module_node_view(...) {`{`}</span></div>
+              <div class="micro-row add"><span class="m">+</span><span class="c">#[Hook('node_view')]</span></div>
+              <div class="micro-row add"><span class="m">+</span><span class="c">public function nodeView(...) {`{`}</span></div>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <div class="card-icon sky" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            </div>
+            <h3>Subtle Drupal idioms</h3>
+            <p>Missing <code class="mono">#cache.contexts</code>, raw entity loads in loops, render arrays that won't BigPipe. Generic tools don't flag any of these — your prod alerts do.</p>
+            <div class="micro">
+              <div class="micro-row"><span class="m">›</span><span class="c">{`$build['#markup'] = $node->getTitle();`}</span></div>
+              <div class="micro-row del"><span class="m">−</span><span class="c">// no #cache.contexts → leaks</span></div>
+              <div class="micro-row add"><span class="m">+</span><span class="c">{`'#cache' => ['contexts' => ['user']]`}</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================== HOW IT WORKS ===================== -->
+    <section id="how">
+      <div class="container">
+        <span class="section-label">How it works</span>
+        <h2 class="section-title">Five hops, all of them inside your network.</h2>
+        <p class="section-lede">The MR webhook fires, the model reviews, GitLab gets a comment back. The whole pipeline runs on infrastructure you already own — no API calls leave your VPC.</p>
+
+        <div class="pipeline">
+          <article class="pipeline-step reveal">
+            <span class="num mono">01</span>
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M18 9v3a3 3 0 0 1-3 3H9"></path><path d="M9 12v6"></path></svg></span>
+            <h4>GitLab MR</h4>
+            <p>Webhook on push or comment trigger.</p>
+            <span class="stack">GitLab CE 16+</span>
+            <span class="pipeline-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+          </article>
+
+          <article class="pipeline-step reveal">
+            <span class="num mono">02</span>
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7"></path><path d="M16 17l5 5"></path><circle cx="17" cy="17" r="4"></circle></svg></span>
+            <h4>Diff parse</h4>
+            <p>FastAPI extracts changed hunks + file context.</p>
+            <span class="stack">FastAPI · Python 3.12</span>
+            <span class="pipeline-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+          </article>
+
+          <article class="pipeline-step reveal">
+            <span class="num mono">03</span>
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14a9 3 0 0 0 18 0V5"></path><path d="M3 12a9 3 0 0 0 18 0"></path></svg></span>
+            <h4>Drupal-RAG lookup</h4>
+            <p>Pulls relevant core docs, contrib patterns, prior fixes.</p>
+            <span class="stack">Qdrant</span>
+            <span class="pipeline-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+          </article>
+
+          <article class="pipeline-step reveal">
+            <span class="num mono">04</span>
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="2" x2="9" y2="4"></line><line x1="15" y1="2" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="22"></line><line x1="15" y1="20" x2="15" y2="22"></line><line x1="20" y1="9" x2="22" y2="9"></line><line x1="20" y1="14" x2="22" y2="14"></line><line x1="2" y1="9" x2="4" y2="9"></line><line x1="2" y1="14" x2="4" y2="14"></line></svg></span>
+            <h4>Local LLM review</h4>
+            <p>Ollama runs gemma4-12b-dcr on your hardware.</p>
+            <span class="stack">Ollama · gemma4-12b-dcr</span>
+            <span class="pipeline-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+          </article>
+
+          <article class="pipeline-step reveal">
+            <span class="num mono">05</span>
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></span>
+            <h4>MR comment</h4>
+            <p>Findings posted inline. Severity, file, line.</p>
+            <span class="stack">GitLab API v4</span>
+          </article>
+        </div>
+
+        <div class="differentiators reveal">
+          <div class="diff-item">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span>
+            <div>
+              <p class="t">0% data egress</p>
+              <p class="d">Code never crosses your VPC boundary. No vendor API. Auditable.</p>
+            </div>
+          </div>
+          <div class="diff-item">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></span>
+            <div>
+              <p class="t">&lt;30s review</p>
+              <p class="d">Average pipeline run from webhook to inline MR comment. Posts before the senior dev opens GitLab.</p>
+            </div>
+          </div>
+          <div class="diff-item">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><polyline points="2 17 12 22 22 17"></polyline></svg></span>
+            <div>
+              <p class="t">Drupal-RAG</p>
+              <p class="d">14k vectors over core, top-200 contrib, and your own custom modules — so the model knows your hooks too.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================== SURFACES + FIX ===================== -->
+<section id="surfaces">
+  <div class="container">
+    <span class="section-label">One engine, three doors</span>
+    <h2 class="section-title">Run it where you already work.</h2>
+    <p class="section-lede">Same review pipeline, same local model, reached three ways. The CLI is the free core; the IDE (MCP) and PR-bot doors are Pro.</p>
+
+    <div class="problem-grid">
+      <article class="card reveal">
+        <div class="card-icon sky" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+        </div>
+        <h3>CLI &amp; git hook <span style="font-size:10px;font-weight:700;letter-spacing:.06em;padding:2px 7px;border-radius:999px;border:1px solid currentColor;vertical-align:middle;margin-left:6px;opacity:.6">FREE</span></h3>
+        <p>Pipe a diff in, get JSON or markdown back. Wire it into a pre-push hook so nothing merges unreviewed.</p>
+        <div class="micro">
+          <div class="micro-row"><span class="m">$</span><span class="c">git diff main | drureview review --diff-stdin</span></div>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-icon amber" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+        </div>
+        <h3>In your IDE (MCP) <span style="font-size:10px;font-weight:700;letter-spacing:.06em;padding:2px 7px;border-radius:999px;border:1px solid currentColor;vertical-align:middle;margin-left:6px;opacity:.6">PRO</span></h3>
+        <p>An MCP server, so Cursor, Claude Code, and Windsurf call it natively. Ask your agent to review the diff; it answers with Drupal-aware findings.</p>
+        <div class="micro">
+          <div class="micro-row"><span class="m">›</span><span class="c">review_diff · review_pr · propose_fix</span></div>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-icon rose" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M6 21V9a9 9 0 0 0 9 9"></path></svg>
+        </div>
+        <h3>PR bot on every MR <span style="font-size:10px;font-weight:700;letter-spacing:.06em;padding:2px 7px;border-radius:999px;border:1px solid currentColor;vertical-align:middle;margin-left:6px;opacity:.6">PRO</span></h3>
+        <p>Drop it in CI. On each merge request it posts inline findings — severity, file, line — before a human opens the tab.</p>
+        <div class="micro">
+          <div class="micro-row add"><span class="m">+</span><span class="c">posted to MR · 2 critical, 4 medium</span></div>
+        </div>
+      </article>
+    </div>
+
+    <!-- DCR Fix highlight -->
+    <div class="differentiators reveal" style="margin-top:32px">
+      <div class="diff-item">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg></span>
+        <div>
+          <p class="t">It fixes, not just flags</p>
+          <p class="d">For mechanical Drupal mistakes — static calls that should be injected, missing cache metadata, deprecated APIs, render-array XSS — it writes the corrected code as a one-click <code class="mono">suggestion</code> block. Every patch is checked against PHPCS before you see it.</p>
+        </div>
+      </div>
+      <div class="diff-item">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></span>
+        <div>
+          <p class="t">The fix never leaves either</p>
+          <p class="d">A cloud reviewer round-trips your code and the patch to a vendor to "fix it." Drureview generates and validates the fix inside your network. For agencies and regulated shops, that's the whole point.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <!-- ===================== BENCHMARK ===================== -->
+    <section id="benchmark">
+      <div class="container">
+        <span class="section-label">Honest benchmarks</span>
+        <h2 class="section-title">Real numbers. Measured, with the method in the open.</h2>
+        <p class="section-lede">Drureview is a high-specificity second reviewer — Drupal-idiom-aware, tuned for low false alarms. Not a magic 100% bug catcher; an extra pair of Drupal-trained eyes that never sees your code leave the building. Here is what we actually measured.</p>
+
+        <div class="bench-grid">
+          <div class="stat-stack">
+            <div class="stat-card reveal">
+              <div class="num win mono">1.00</div>
+              <div class="label">Specificity · board v2</div>
+              <p class="desc">On 58 inverted real-fix pairs, the fine-tuned model raised zero false alarms on the clean side. A second reviewer that doesn't cry wolf.</p>
+            </div>
+            <div class="stat-card reveal">
+              <div class="num mono">0.66</div>
+              <div class="label">Recall · board v2</div>
+              <p class="desc">Caught two-thirds of reintroduced real defects on the same 58-pair set — balanced accuracy 0.828 vs 0.655 for the untuned base model.</p>
+            </div>
+            <div class="stat-card reveal">
+              <div class="num win mono">+12.5pp</div>
+              <div class="label">Verdict accuracy · A/B</div>
+              <p class="desc">Fine-tuning lifted verdict accuracy 83.3% → 95.8% on a held-out set (n=48), specificity to 100%, and dropped invalid-JSON outputs to zero.</p>
+            </div>
+          </div>
+
+          <div class="bench-table-wrap reveal">
+            <div class="bench-table-head">
+              <h4>Where Drureview sits</h4>
+              <a href="#methodology">How we measured →</a>
+            </div>
+            <div style="overflow-x:auto">
+              <table class="bench">
+                <thead>
+                  <tr>
+                    <th>Tool</th>
+                    <th>Self-host</th>
+                    <th>Data leaves your network</th>
+                    <th>Drupal-aware</th>
+                    <th>Auto-fix on-prem</th>
+                    <th>Billing</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="us">
+                    <td>Drureview</td>
+                    <td><span class="y">Yes</span></td>
+                    <td><span class="y">Never</span></td>
+                    <td><span class="y">Native</span></td>
+                    <td><span class="y">Yes</span></td>
+                    <td><span class="y">One-time</span></td>
+                  </tr>
+                  <tr>
+                    <td>CodeRabbit</td>
+                    <td><span class="n">No</span></td>
+                    <td><span class="n">Vendor cloud</span></td>
+                    <td><span class="n">Generic</span></td>
+                    <td><span class="n">Cloud only</span></td>
+                    <td><span class="mono">$24/seat/mo</span></td>
+                  </tr>
+                  <tr>
+                    <td>Greptile</td>
+                    <td><span class="tt partial" data-tt="VPC only on enterprise tier. Otherwise vendor cloud.">Enterprise only</span></td>
+                    <td><span class="tt partial" data-tt="Vendor cloud unless enterprise tier.">Tier-dependent</span></td>
+                    <td><span class="n">Generic</span></td>
+                    <td><span class="n">Cloud only</span></td>
+                    <td><span class="mono">$30+/seat/mo</span></td>
+                  </tr>
+                  <tr>
+                    <td>GitHub Copilot</td>
+                    <td><span class="n">No</span></td>
+                    <td><span class="n">Microsoft cloud</span></td>
+                    <td><span class="n">Generic</span></td>
+                    <td><span class="n">Cloud only</span></td>
+                    <td><span class="mono">$19/seat/mo</span></td>
+                  </tr>
+                  <tr>
+                    <td>PHPStan / Drupal rules</td>
+                    <td><span class="y">Yes</span></td>
+                    <td><span class="y">Never</span></td>
+                    <td><span class="tt partial" data-tt="Static analysis — typed-property issues, but no semantic Drupal idioms and no AI.">Static-only</span></td>
+                    <td><span class="n">No</span></td>
+                    <td><span class="mono">$0</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================== PRICING ===================== -->
+    <section id="pricing">
+      <div class="container">
+        <div class="pricing-head">
+          <div>
+            <span class="section-label">Pricing</span>
+            <h2 class="section-title" style="margin-bottom:0">Buy it once. Run it forever.</h2>
+            <p class="section-lede" style="margin-top:8px">A perpetual license — twelve months of updates included, then keep what you have for good. No seats, no monthly bill.</p>
+          </div>
+        </div>
+
+        <div class="pricing-grid">
+          <article class="tier community">
+            <h3>Core</h3>
+            <div class="price"><span class="amount mono">$0</span><span class="unit">/ forever</span></div>
+            <p class="blurb">The local engine, open-source (Apache-2.0) on GitHub. Review Drupal diffs on your own machine, free — forever.</p>
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> CLI review + Claude Code skill</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> The public fine-tuned models</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Base Drupal RAG (core + standards)</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Personal &amp; evaluation use</li>
+            </ul>
+            <a href="https://github.com/bartek-filipiuk/drureview-core" target="_blank" rel="noopener" class="btn btn-outline">Get the core on GitHub</a>
+          </article>
+
+          <article class="tier">
+            <h3>Solo</h3>
+            <div class="price"><span class="amount mono">$39</span><span class="unit">/ one-time</span></div>
+            <p class="blurb">For an individual developer who wants the Pro layer locally.</p>
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> DCR Fix — one-click fix suggestions</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> MCP server (Cursor / Claude Code)</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Web panel</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Index your own private modules</li>
+            </ul>
+            <a href="#" data-stripe="solo" class="btn btn-outline">Buy Solo</a>
+          </article>
+
+          <article class="tier featured">
+            <span class="tier-badge">FOUNDING · $190</span>
+            <h3>Agency</h3>
+            <div class="price"><span class="amount mono">$290</span><span class="unit">/ one-time · for your team</span></div>
+            <p class="blurb">Everything in Solo for the whole team, plus CI. First 50 at $190 with lifetime updates.</p>
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> PR bot on GitHub / GitLab CI</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Per-repo rules + severity gates</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Team &amp; commercial use</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Priority email support</li>
+            </ul>
+            <a href="#" data-stripe="agency-founding" class="btn btn-accent">Claim founding seat</a>
+            <p class="cta-meta" style="margin-top:10px"><span id="foundingLeft" data-cap="50">50</span> of 50 founding seats left</p>
+          </article>
+
+          <article class="tier">
+            <h3>Site</h3>
+            <div class="price"><span class="amount mono">$1,250</span><span class="unit">/ one-time · org-wide</span></div>
+            <p class="blurb">A perpetual license for the whole org.</p>
+            <ul>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Org-wide deployment</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Air-gapped install</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Custom rule packs</li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Install support included</li>
+            </ul>
+            <a href="#" data-stripe="site" class="btn btn-outline">Get Site</a>
+          </article>
+        </div>
+
+        <div class="services reveal" style="margin-top:40px;padding:28px;border:1px solid var(--border);border-radius:14px">
+          <h3 style="margin:0 0 6px">Want it set up for you?</h3>
+          <p class="section-lede" style="margin:0 0 20px">The code is the cheap part. Most teams buy a setup so they skip the GPU, model-serving, RAG, and CI plumbing — and get a reviewer that's tuned to their Drupal from day one.</p>
+          <div class="pricing-grid">
+            <article class="tier"><h3>Quickstart</h3><div class="price"><span class="amount mono">$390</span></div><p class="blurb">A remote ~2-hour session: install, serve the model, first real review on your repo.</p><a href="#" data-stripe="svc-quickstart" class="btn btn-outline">Book Quickstart</a></article>
+            <article class="tier"><h3>Done-for-you</h3><div class="price"><span class="amount mono">$1.9–4.9k</span></div><p class="blurb">Full install, model serving, RAG ingest of your custom modules, CI / PR-bot wiring, team onboarding.</p><a href="mailto:filipiuk.bartek@gmail.com?subject=Drureview%20services" class="btn btn-outline">Talk to us</a></article>
+            <article class="tier"><h3>Enterprise</h3><div class="price"><span class="amount mono">$5–15k</span></div><p class="blurb">Air-gapped deploy, custom RAG fine-tune on your codebase, compliance docs. Bundled with a Site license.</p><a href="mailto:filipiuk.bartek@gmail.com?subject=Drureview%20services" class="btn btn-outline">Talk to us</a></article>
+          </div>
+        </div>
+
+        <div class="faq">
+          <h3>Frequently asked</h3>
+          <details class="faq-item">
+            <summary>
+              <span>Is the local Core really free?</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </summary>
+            <div class="ans">Yes. The CLI reviewer, the Claude Code skill, and the public fine-tuned models are free to run on your own machine, forever. The one-time license unlocks the Pro layer: auto-fix, the MCP server, CI/PR-bot, and indexing your private modules.</div>
+          </details>
+          <details class="faq-item">
+            <summary>
+              <span>What does 'buy once' actually mean?</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </summary>
+            <div class="ans">A perpetual license. Your purchase includes twelve months of updates; after that you keep everything you have and can buy another year of updates if you want the newer versions. No subscription, no seat counting per month.</div>
+          </details>
+          <details class="faq-item">
+            <summary>
+              <span>Does anything leave my network?</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </summary>
+            <div class="ans">No code, ever. Reviews run on your hardware against a local model. That's the entire reason this exists.</div>
+          </details>
+          <details class="faq-item">
+            <summary>
+              <span>What hardware do I need?</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </summary>
+            <div class="ans">One box with a 24 GB GPU (RTX 3090/4090, L4, A10) is comfortable. A Mac runs it on CPU/Metal via Ollama, a bit slower. No GPU at all still works for smaller diffs.</div>
+          </details>
+          <details class="faq-item">
+            <summary>
+              <span>Can you just set it up for me?</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </summary>
+            <div class="ans">That's the Quickstart and Done-for-you packages above. We get it running on your infra, tuned to your Drupal, wired into your CI — so you don't burn a sprint on plumbing.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================== SCANNER TEASER ===================== -->
+    <section id="scan">
+      <div class="container">
+        <span class="section-label">Free public scanner · coming soon</span>
+        <h2 class="section-title">Paste any public Drupal MR. See what it catches.</h2>
+        <p class="section-lede">A free, public scanner: drop in a drupal.org / GitHub / GitLab merge request and get a shareable Drupal-aware review. Public URLs only — for your private code, you run Drureview locally. Live in a couple of weeks; here are real runs to look at now.</p>
+
+        <div class="problem-grid">
+          <article class="card reveal"><h3>simple_oauth !143</h3><p>Access-check + DI findings on a real contrib MR.</p><a href="/r/example" data-example="1" class="btn btn-outline">View result</a></article>
+          <article class="card reveal"><h3>core MR · render array</h3><p>Missing cache contexts flagged on a public core change.</p><a href="/r/example" data-example="2" class="btn btn-outline">View result</a></article>
+          <article class="card reveal"><h3>contrib · deprecated API</h3><p>D10→D11 deprecation caught with the current replacement.</p><a href="/r/example" data-example="3" class="btn btn-outline">View result</a></article>
+        </div>
+
+        <form class="cta-form" id="scanWaitlist" style="margin-top:28px;max-width:520px">
+          <input type="email" placeholder="you@agency.com" required aria-label="Email for scanner launch" />
+          <button type="submit" class="btn btn-accent">Notify me when it's live</button>
+        </form>
+        <p class="cta-meta">No code leaves your network — the scanner only runs on public URLs you paste.</p>
+      </div>
+    </section>
+
+
+    <!-- ===================== FINAL CTA ===================== -->
+    <section id="trial" class="cta-dark">
+      <div class="container cta-inner">
+        <h2>Own your Drupal reviewer.</h2>
+        <p>Grab the free core, or claim a founding Agency seat. Set up in an afternoon — or have us do it.</p>
+        <form class="cta-form" id="ctaForm">
+          <input type="email" placeholder="you@agency.com" required aria-label="Email" />
+          <button type="submit" class="btn">Get Drureview</button>
+        </form>
+        <p class="cta-meta">Free core, no card · Founding seats limited · Drupal community priority</p>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <div class="container">
+      <div class="foot-grid">
+        <div>
+          <a href="#" class="brand">
+            <span class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="13" x2="15" y2="13"></line><line x1="9" y1="17" x2="15" y2="17"></line></svg>
+            </span>
+            <span>Drureview</span>
+          </a>
+          <p class="foot-blurb">On-prem AI code review for Drupal 11. Built by Drupal devs, for teams that can't ship code to third-party clouds. Buy once, run it on your own hardware.</p>
+        </div>
+        <div>
+          <h5>Product</h5>
+          <ul>
+            <li><a href="#surfaces">Run it</a></li>
+            <li><a href="#benchmark">Benchmarks</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#scan">Free scanner</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Resources</h5>
+          <ul>
+            <li><a href="#docs">Documentation</a></li>
+            <li><a href="#methodology">Benchmark methodology</a></li>
+            <li><a href="#security">Security & compliance</a></li>
+            <li><a href="#changelog">Changelog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>Company</h5>
+          <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#disclosure">Security disclosure</a></li>
+            <li><a href="https://www.drupal.org">drupal.org profile</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>© 2026 Drureview · Drupal is a registered trademark of Dries Buytaert.</span>
+        <span class="legal">
+          <a href="#privacy">Privacy</a>
+          <a href="#terms">Terms</a>
+          <a href="#disclosure">Disclosure</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script is:inline>
+    /* ===== Theme state (persisted to localStorage) ===== */
+    const STORAGE_KEY = 'dcr-prefs-v1';
+    const state = Object.assign(
+      { theme: 'light' },
+      JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')
+    );
+
+    function apply() {
+      document.documentElement.setAttribute('data-theme', state.theme);
+    }
+
+    function persist(patch) {
+      Object.assign(state, patch);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      apply();
+    }
+
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      persist({ theme: state.theme === 'light' ? 'dark' : 'light' });
+    });
+
+    /* ===== Nav scroll shadow ===== */
+    const nav = document.querySelector('.nav');
+    const onScroll = () => nav.classList.toggle('is-scrolled', window.scrollY > 8);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    /* ===== Reveal-on-scroll ===== */
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: '0px 0px -40px 0px', threshold: 0.05 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    /* ===== CTA form (placeholder until backend wired) ===== */
+    document.getElementById('ctaForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const input = e.currentTarget.querySelector('input');
+      const btn = e.currentTarget.querySelector('.btn');
+      input.value = '';
+      btn.textContent = '✓ On the list';
+    });
+
+    /* ===== Scanner waitlist (placeholder until backend wired) ===== */
+    const sw = document.getElementById('scanWaitlist');
+    if (sw) sw.addEventListener('submit', e => {
+      e.preventDefault();
+      sw.querySelector('input').value = '';
+      sw.querySelector('.btn').textContent = '✓ On the list';
+    });
+
+    /* ===== Founding seats counter (static until backend wired) ===== */
+    const fl = document.getElementById('foundingLeft');
+    if (fl) fl.textContent = fl.dataset.cap; // swap to a live Stripe count at deploy
+
+    /* ===== Stripe Payment Links ====================================
+       >>> PASTE PAYMENT LINKS HERE before launch <<<  (Bartek)
+       Replace each '#' with the Stripe Payment Link URL
+       (https://buy.stripe.com/...). Until filled, a button falls back
+       to the #pricing section instead of a broken '#'. ============= */
+    const STRIPE = {
+      'solo': '#',             // Solo $39 one-time
+      'agency-founding': '#',  // Agency FOUNDING $190 one-time, qty-capped at 50
+      'agency': '#',           // Agency $290 one-time (after founding sells out)
+      'site': '#',             // Site $1,250 one-time
+      'svc-quickstart': '#',   // Quickstart $390 service
+    };
+    document.querySelectorAll('[data-stripe]').forEach(a => {
+      const url = STRIPE[a.dataset.stripe];
+      if (url && url !== '#') {
+        a.setAttribute('href', url);
+      } else {
+        a.setAttribute('href', '#pricing');
+        a.setAttribute('title', 'Checkout link coming at launch');
+      }
+    });
+
+    apply();
+  </script>
+</Layout>

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /internal/
+
+# Internal docs (business strategy etc.) — not indexed.
+# Use Cloudflare Pages Access (email-restricted) for additional protection.
