@@ -1,0 +1,80 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Privacy — Drureview" description="What data Drureview collects (very little) and what happens to it.">
+  <main class="legal-page">
+    <div class="container">
+      <a href="/" class="back">← Drureview</a>
+      <h1>Privacy</h1>
+      <p class="updated">Last updated: June 11, 2026</p>
+
+      <h2>The short version</h2>
+      <p>
+        This is a static marketing site. It sets no tracking cookies, runs no analytics scripts,
+        and embeds no third-party trackers. The product itself runs entirely on your own hardware —
+        your code never reaches us, by design.
+      </p>
+
+      <h2>What we collect</h2>
+      <ul>
+        <li>
+          <strong>Email address — only if you submit a form.</strong> The waitlist, launch-notify,
+          and price-reserve forms collect your email plus a tag describing which form you used
+          (e.g. <code>scanner-waitlist</code>). That's it. Signup is double opt-in: nothing is
+          stored on a list until you confirm from your inbox, and every email we send has an
+          unsubscribe link. The list is hosted by our newsletter provider (Buttondown); until that
+          account is live, the forms simply open your own email client instead.
+        </li>
+        <li>
+          <strong>Theme preference.</strong> Your light/dark choice is kept in your browser's
+          <code>localStorage</code>. It never leaves your browser.
+        </li>
+        <li>
+          <strong>Standard server logs.</strong> Like every web server, ours records requests
+          (IP, path, user agent) for security and debugging, rotated on a short schedule.
+        </li>
+      </ul>
+
+      <h2>What we never collect</h2>
+      <p>
+        Your source code. Drureview reviews run locally against a local model — no diff, finding,
+        or fix ever transits our infrastructure. There is no telemetry in the CLI.
+      </p>
+
+      <h2>Your rights</h2>
+      <p>
+        You can unsubscribe from any email with one click, and you can ask us to delete your
+        address entirely at any time. EU/GDPR rights (access, rectification, erasure, portability)
+        apply — just write to us.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Data controller: Bartek Filipiuk ·
+        <a href="mailto:filipiuk.bartek@gmail.com">filipiuk.bartek@gmail.com</a>
+      </p>
+    </div>
+  </main>
+
+  <style>
+    .legal-page { padding: 72px 0 96px; }
+    .legal-page .container { max-width: 720px; }
+    .legal-page .back {
+      font-size: 14px; color: var(--text-3); text-decoration: none;
+      display: inline-block; margin-bottom: 28px;
+    }
+    .legal-page .back:hover { color: var(--text-1); }
+    .legal-page h1 { font-size: 34px; margin: 0 0 6px; }
+    .legal-page .updated { color: var(--text-3); font-size: 13.5px; margin: 0 0 36px; }
+    .legal-page h2 { font-size: 19px; margin: 32px 0 10px; }
+    .legal-page p, .legal-page li { color: var(--text-2); font-size: 15px; line-height: 1.7; }
+    .legal-page ul { padding-left: 20px; display: grid; gap: 12px; }
+    .legal-page code {
+      font-family: var(--font-mono); font-size: 13px;
+      background: var(--surface-2); border: 1px solid var(--border);
+      padding: 1px 5px; border-radius: 5px;
+    }
+    .legal-page a { color: var(--accent-text); }
+  </style>
+</Layout>

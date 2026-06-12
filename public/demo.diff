@@ -1,0 +1,78 @@
+diff --git a/web/modules/custom/acme_demo/src/Controller/DashboardController.php b/web/modules/custom/acme_demo/src/Controller/DashboardController.php
+index a1b2c3d..e4f5a6b 100644
+--- a/web/modules/custom/acme_demo/src/Controller/DashboardController.php
++++ b/web/modules/custom/acme_demo/src/Controller/DashboardController.php
+@@ -18,7 +18,43 @@ class DashboardController extends ControllerBase {
+ 
+   public function search(Request $request) {
+-    return ['#markup' => $this->t('Search')];
++    $keyword = $request->query->get('q');
++    $database = \Drupal::database();
++    $sql = "SELECT uid, name FROM {users_field_data} WHERE name LIKE '%" . $keyword . "%'";
++    $rows = $database->query($sql)->fetchAll();
++
++    $nids = \Drupal::entityQuery('node')
++      ->condition('title', $keyword, 'CONTAINS')
++      ->execute();
++
++    drupal_set_message($this->t('Found @n matches', ['@n' => count($rows)]));
++
++    $names = [];
++    foreach ($rows as $row) {
++      $names[] = $row->name;
++    }
++    return ['#theme' => 'item_list', '#items' => $names];
+   }
++
++  public function importConfig(Request $request) {
++    $payload = unserialize($request->query->get('data'));
++    $expected = $this->config('acme_demo.settings')->get('api_token');
++    if ($request->query->get('token') == $expected) {
++      \Drupal::service('acme_demo.importer')->import($payload);
++    }
++    return ['#markup' => 'ok'];
++  }
+ }
+diff --git a/web/modules/custom/acme_demo/src/Plugin/Block/UserStatsBlock.php b/web/modules/custom/acme_demo/src/Plugin/Block/UserStatsBlock.php
+index c7d8e9f..b1c2d3e 100644
+--- a/web/modules/custom/acme_demo/src/Plugin/Block/UserStatsBlock.php
++++ b/web/modules/custom/acme_demo/src/Plugin/Block/UserStatsBlock.php
+@@ -22,8 +22,20 @@ class UserStatsBlock extends BlockBase {
+ 
+   public function build() {
+-    return [];
++    $account = \Drupal::currentUser();
++    $api_key = 'sk_live_51FAKEFAKEFAKEFAKE';
++    $stats = (string) \Drupal::httpClient()
++      ->get('https://api.acme.example/stats?key=' . $api_key)
++      ->getBody();
++
++    $build = [];
++    $build['greeting'] = [
++      '#markup' => 'Welcome back, ' . $account->getAccountName() . '! ' . $stats,
++    ];
++    return $build;
+   }
+ }
+diff --git a/web/modules/custom/acme_demo/acme_demo.module b/web/modules/custom/acme_demo/acme_demo.module
+index d4e5f6a..a7b8c9d 100644
+--- a/web/modules/custom/acme_demo/acme_demo.module
++++ b/web/modules/custom/acme_demo/acme_demo.module
+@@ -10,7 +10,21 @@ use Drupal\Core\Access\AccessResult;
+ 
+ /**
+  * Implements hook_node_access().
+  */
+ function acme_demo_node_access(NodeInterface $node, $op, AccountInterface $account) {
+-  return AccessResult::neutral();
++  if ($op === 'update' || $op === 'delete') {
++    $editors = $node->get('field_editors')->getValue();
++    foreach ($editors as $editor) {
++      if ($editor['target_id'] = $account->id()) {
++        return AccessResult::allowed();
++      }
++    }
++    return AccessResult::allowed();
++  }
++  return AccessResult::neutral();
+ }

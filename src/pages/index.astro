@@ -1,5 +1,25 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+// >>> Demo video (Bartek): paste the YouTube video ID here and the placeholder
+// below swaps for the embed. That's the ONLY change needed. e.g. 'dQw4w9WgXcQ'
+const YT_DEMO_ID = '';
+
+// Verbatim finding from a real CLI run on the public 10-issue demo diff
+// (`drureview review --diff-file demo.diff --output json --use-mock`,
+// engine v7 defaults, null fields trimmed for brevity — nothing else edited).
+const demoFinding = `{
+  "severity": "medium",
+  "category": "security",
+  "file": "web/modules/custom/acme_demo/src/Controller/DashboardController.php",
+  "line": 41,
+  "message": "Loose comparison (\`==\`/\`!=\`) on a security-sensitive value (token/secret/hash). PHP type-juggling can bypass the check and non-constant-time comparison leaks via timing.",
+  "suggestion": "Use strict comparison \`===\`; for secret/token/HMAC equality use hash_equals($known, $user_supplied) (constant-time).",
+  "cwe": "CWE-697",
+  "owasp_category": "A07:2021",
+  "confidence": 0.6,
+  "citation": "CWE-697: Incorrect Comparison (see also CWE-208 timing)"
+}`;
 ---
 
 <Layout>
@@ -15,11 +35,11 @@ import Layout from '../layouts/Layout.astro';
       </a>
 
       <div class="nav-links" role="navigation">
+        <a href="#demo">Demo</a>
         <a href="#surfaces">Run it</a>
         <a href="#benchmark">Benchmarks</a>
         <a href="#pricing">Pricing</a>
-        <a href="#scan">Scan</a>
-        <a href="https://github.com/bartek-filipiuk/drureview-core">Docs</a>
+        <a href="/docs/">Docs</a>
       </div>
 
       <div class="nav-actions">
@@ -44,30 +64,30 @@ import Layout from '../layouts/Layout.astro';
         <div class="hero-copy">
           <span class="status-badge">
             <span class="pulse" aria-hidden="true"></span>
-            <strong>Launching &lt;date&gt;</strong> · One-time license · Drupal community
+            <strong>Free core — Apache-2.0</strong> · Pro is a one-time buy · Launching &lt;date&gt;
           </span>
 
           <h1>
             AI code review for Drupal<br />
-            <span class="muted">on your hardware. Buy it once.</span>
+            <span class="muted">on your hardware. Free to run.</span>
           </h1>
 
           <p class="hero-sub">
-            A Drupal-aware reviewer that runs inside your network — CLI, your IDE (MCP), or as a PR bot. It knows <code class="mono">#[Hook]</code>, cache contexts, DI, and render-array XSS, and it can hand you the fix as a one-click suggestion. No subscription, no data leaving the building.
+            A Drupal-aware reviewer that runs inside your network. The core — CLI reviewer, fine-tuned model, Claude Code skill — is <strong>free and open-source</strong>. It knows <code class="mono">#[Hook]</code>, cache contexts, DI, and render-array XSS. Pro adds auto-fix, IDE (MCP), and the PR bot — bought once, no subscription. Nothing leaves the building either way.
           </p>
 
           <div class="hero-ctas">
-            <a href="#pricing" class="btn btn-accent btn-lg">
-              Get Drureview
+            <a href="https://github.com/bartek-filipiuk/drureview-core" target="_blank" rel="noopener" class="btn btn-accent btn-lg">
+              Get the free core
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </a>
-            <a href="#benchmark" class="btn btn-outline btn-lg">Read the benchmark</a>
+            <a href="#pricing" class="btn btn-outline btn-lg">Pro — from $39, one-time</a>
           </div>
 
           <div class="hero-meta">
-            <span><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Free local core</span>
-            <span><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Buy once</span>
-            <span><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Self-hosted</span>
+            <span><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Apache-2.0 core</span>
+            <span><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> 0% data egress</span>
+            <span><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> No subscription</span>
           </div>
         </div>
 
@@ -139,63 +159,99 @@ import Layout from '../layouts/Layout.astro';
             </article>
           </div>
 
-          <!-- variant: terminal mockup -->
-          <div class="terminal-mockup">
-            <div class="terminal-bar">
-              <span class="tdot"></span><span class="tdot"></span><span class="tdot"></span>
-              <span class="ttitle">~/drupal-site $ drupal-cr review !247</span>
-            </div>
-            <div class="terminal-body mono">
-              <div><span class="prompt">→</span> <span class="dim">Connecting to local Ollama (gemma4-12b-dcr) ……… </span><span class="ok">ok</span></div>
-              <div><span class="prompt">→</span> <span class="dim">Indexing Drupal RAG (core + 84 contrib) ……… </span><span class="ok">1,968 vectors</span></div>
-              <div><span class="prompt">→</span> <span class="dim">Reviewing 3 changed files (412 LOC) ……… </span><span class="ok">28.4s</span></div>
-              <div style="height:10px"></div>
-              <div><span class="err">●</span> <span class="err">CRITICAL</span> <span class="dim">src/Form/UserSearchForm.php:47</span></div>
-              <div>&nbsp;&nbsp;<span class="dim">SQL injection — raw concat into db_query()</span></div>
-              <div>&nbsp;&nbsp;<span class="arrow">└</span> <span class="dim">use $this-&gt;database-&gt;select() with placeholder</span></div>
-              <div style="height:8px"></div>
-              <div><span class="warn">●</span> <span class="warn">MEDIUM</span> <span class="dim">src/Controller/UserController.php:22</span></div>
-              <div>&nbsp;&nbsp;<span class="dim">DI antipattern — \Drupal::service() in controller</span></div>
-              <div><span class="warn">●</span> <span class="warn">MEDIUM</span> <span class="dim">src/Plugin/Block/StatsBlock.php:61</span></div>
-              <div>&nbsp;&nbsp;<span class="dim">missing #cache.contexts on user-specific render</span></div>
-              <div style="height:10px"></div>
-              <div><span class="dim">Findings posted to GitLab MR !247 (2 critical, 4 medium, 1 low)</span></div>
-            </div>
-          </div>
-
-          <!-- variant: diff-only mockup -->
-          <div class="diff-only-mockup">
-            <div class="diff" style="margin:0;border-radius:0">
-              <div class="diff-file mono">src/Form/UserSearchForm.php · line 47</div>
-              <div class="diff-row del"><span class="ln">47</span><span class="marker">-</span><span class="code">{`$result = db_query("SELECT * FROM {users} WHERE name LIKE '%" . $keyword . "%'");`}</span></div>
-              <div class="diff-row add"><span class="ln">47</span><span class="marker">+</span><span class="code">$result = $this-&gt;database-&gt;select('users', 'u')</span></div>
-              <div class="diff-row add"><span class="ln">48</span><span class="marker">+</span><span class="code">  -&gt;condition('name', '%' . $this-&gt;database-&gt;escapeLike($keyword) . '%', 'LIKE')</span></div>
-              <div class="diff-row add"><span class="ln">49</span><span class="marker">+</span><span class="code">  -&gt;execute();</span></div>
-            </div>
-            <div class="annotation">
-              <span class="sev-badge sev-critical">CRITICAL</span>
-              <div>
-                <strong>SQL injection</strong> — raw <code class="mono">$keyword</code> concatenated into <code class="mono">db_query()</code>.
-                Use the database service with a placeholder so Drupal's prepared statements escape it for you.
-              </div>
-            </div>
-          </div>
+          <p class="mockup-caption">Illustration of the Pro PR-bot — the findings shown are real catches from our <a href="/demo.diff">public demo diff</a>.</p>
 
         </div>
       </div>
 
-      <!-- ===== Trust strip (right under hero) ===== -->
+    </section>
+
+
+    <!-- ===================== VIDEO DEMO ===================== -->
+    <section id="video">
       <div class="container">
-        <div class="trust">
-          <p class="trust-label">In production with beta partners across these sectors — logos coming after public launch</p>
-          <div class="trust-row">
-            <div class="trust-slot">Drupal agency</div>
-            <div class="trust-slot">University</div>
-            <div class="trust-slot">Government</div>
-            <div class="trust-slot">Healthcare</div>
-            <div class="trust-slot">Finance</div>
+        <span class="section-label">Watch it run</span>
+        <h2 class="section-title">A few minutes, start to findings.</h2>
+        <p class="section-lede">A real review on a real merge request — uncut.</p>
+        {YT_DEMO_ID ? (
+          <div class="video-frame reveal">
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${YT_DEMO_ID}`}
+              title="Drureview demo — a real review, uncut"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+          </div>
+        ) : (
+          <div class="video-frame video-placeholder reveal">
+            <div class="vp-inner">
+              <span class="vp-play" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>
+              </span>
+              <p class="vp-title">Demo video coming</p>
+              <p class="vp-sub">We're recording a full, uncut run on a public Drupal MR. Until it's up, the real output below is the proof.</p>
+              <a href="#demo" class="btn btn-outline">See real JSON output ↓</a>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+
+
+    <!-- ===================== DEMO: REAL DIFF → REAL JSON ===================== -->
+    <section id="demo">
+      <div class="container">
+        <span class="section-label">Free core · try it in 2 minutes</span>
+        <h2 class="section-title">A real diff in. Real JSON out.</h2>
+        <p class="section-lede">
+          No screenshots, no mockups. Below is a hunk from our public 10-issue demo diff and the
+          finding the CLI returns for it — verbatim from a real run in <code class="mono">--use-mock</code>
+          mode, which exercises the deterministic detectors and shows the exact output shape with
+          <strong>no GPU and no model download</strong>. The full fine-tuned model (24&nbsp;GB GPU)
+          caught 8–9 of the 10 seeded bugs on this diff, including the SQL injection and the
+          <code class="mono">unserialize()</code> RCE.
+        </p>
+
+        <div class="demo-grid reveal">
+          <div class="demo-pane">
+            <div class="pane-head">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              demo.diff · DashboardController.php
+            </div>
+            <pre><span class="add">+  public function importConfig(Request $request) &#123;</span>
+<span class="add">+    $payload = unserialize($request-&gt;query-&gt;get('data'));</span>
+<span class="add">+    $expected = $this-&gt;config('acme_demo.settings')-&gt;get('api_token');</span>
+<span class="add">+    if ($request-&gt;query-&gt;get('token') == $expected) &#123;</span>
+<span class="add">+      \Drupal::service('acme_demo.importer')-&gt;import($payload);</span>
+<span class="add">+    &#125;</span>
+<span class="add">+    return ['#markup' =&gt; 'ok'];</span>
+<span class="add">+  &#125;</span></pre>
+          </div>
+          <div class="demo-pane">
+            <div class="pane-head">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              drureview review · findings[3] of 4
+            </div>
+            <pre>{demoFinding}</pre>
           </div>
         </div>
+
+        <div class="demo-cmd reveal">
+          <div><span class="dim">$</span> git clone https://github.com/bartek-filipiuk/drureview-core &amp;&amp; cd drureview-core &amp;&amp; uv sync</div>
+          <div><span class="dim">$</span> curl -LO https://hardsocket.com/demo.diff</div>
+          <div><span class="dim">$</span> drureview review --diff-file demo.diff --output json --use-mock <span class="dim"># runs in seconds — no GPU, no model pull</span></div>
+        </div>
+
+        <p class="demo-foot">
+          The same <code class="mono">--use-mock</code> run returns 3 more findings on this diff:
+          a hardcoded <code class="mono">sk_live_…</code> Stripe key (CWE-798), an
+          <code class="mono">entityQuery()</code> without <code class="mono">accessCheck()</code> (CWE-285),
+          and removed-API <code class="mono">drupal_set_message()</code>. Point the CLI at a local
+          model (<code class="mono">ollama pull</code>, one command — it's free) and the LLM passes
+          take over: SQLi, XSS, cache-context leaks, DI violations, access-logic bugs.
+          <a href="/demo.diff" download>Download the demo diff</a> and score it yourself —
+          it seeds 10 labeled issues.
+        </p>
       </div>
     </section>
 
@@ -215,9 +271,8 @@ import Layout from '../layouts/Layout.astro';
             <h3>Review queue bottleneck</h3>
             <p>Senior devs spend 6–9 hrs/week reviewing routine MRs. By the time they get to yours, the context is gone and the comment is "LGTM, ship it."</p>
             <div class="micro">
-              <div class="micro-row"><span class="m">›</span><span class="c">42 open MRs · waiting for tech lead</span></div>
-              <div class="micro-row"><span class="m">›</span><span class="c">avg time to first review: 2.3 days</span></div>
-              <div class="micro-row add"><span class="m">+</span><span class="c">first AI review: &lt;30s, full diff</span></div>
+              <div class="micro-row"><span class="m">›</span><span class="c">MR waits days · context evaporates</span></div>
+              <div class="micro-row add"><span class="m">+</span><span class="c">AI first pass in minutes, full diff, while it's fresh</span></div>
             </div>
           </article>
 
@@ -290,8 +345,8 @@ import Layout from '../layouts/Layout.astro';
             <span class="num mono">04</span>
             <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="2" x2="9" y2="4"></line><line x1="15" y1="2" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="22"></line><line x1="15" y1="20" x2="15" y2="22"></line><line x1="20" y1="9" x2="22" y2="9"></line><line x1="20" y1="14" x2="22" y2="14"></line><line x1="2" y1="9" x2="4" y2="9"></line><line x1="2" y1="14" x2="4" y2="14"></line></svg></span>
             <h4>Local LLM review</h4>
-            <p>Ollama runs gemma4-12b-dcr on your hardware.</p>
-            <span class="stack">Ollama · gemma4-12b-dcr</span>
+            <p>Ollama runs gemma4-12b-dcr-v7 on your hardware.</p>
+            <span class="stack">Ollama · gemma4-12b-dcr-v7</span>
             <span class="pipeline-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
           </article>
 
@@ -315,15 +370,15 @@ import Layout from '../layouts/Layout.astro';
           <div class="diff-item">
             <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></span>
             <div>
-              <p class="t">&lt;30s review</p>
-              <p class="d">Average pipeline run from webhook to inline MR comment. Posts before the senior dev opens GitLab.</p>
+              <p class="t">Minutes, not days</p>
+              <p class="d">A full deep review of a typical MR finishes in a few minutes on one RTX 4090 — we parallelized the pipeline 3.4× and measured it, findings bit-identical.</p>
             </div>
           </div>
           <div class="diff-item">
             <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><polyline points="2 17 12 22 22 17"></polyline></svg></span>
             <div>
               <p class="t">Drupal-RAG</p>
-              <p class="d">14k vectors over core, top-200 contrib, and your own custom modules — so the model knows your hooks too.</p>
+              <p class="d">Grounded in api.drupal.org docs, coding standards, and security advisories. Pro also indexes your own custom modules — so the model knows your hooks too.</p>
             </div>
           </div>
         </div>
@@ -387,6 +442,13 @@ import Layout from '../layouts/Layout.astro';
         <div>
           <p class="t">The fix never leaves either</p>
           <p class="d">A cloud reviewer round-trips your code and the patch to a vendor to "fix it." Drureview generates and validates the fix inside your network. For agencies and regulated shops, that's the whole point.</p>
+        </div>
+      </div>
+      <div class="diff-item">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg></span>
+        <div>
+          <p class="t">Claude Code skill — free</p>
+          <p class="d">Core ships a <code class="mono">dcr-review</code> skill. Add it to Claude Code, then just say <em>"review this Drupal diff"</em> — your agent answers with Drupal-aware findings from your local model. Nothing leaves the machine.</p>
         </div>
       </div>
     </div>
@@ -611,18 +673,27 @@ import Layout from '../layouts/Layout.astro';
       <div class="container">
         <span class="section-label">Free public scanner · coming soon</span>
         <h2 class="section-title">Paste any public Drupal MR. See what it catches.</h2>
-        <p class="section-lede">A free, public scanner: drop in a drupal.org / GitHub / GitLab merge request and get a shareable Drupal-aware review. Public URLs only — for your private code, you run Drureview locally. Live in a couple of weeks; here are real runs to look at now.</p>
+        <p class="section-lede">A free, public scanner: drop in a drupal.org / GitHub / GitLab merge request and get a shareable Drupal-aware review. Public URLs only — for your private code, you run Drureview locally.</p>
 
         <div class="problem-grid">
-          <article class="card reveal"><h3>simple_oauth !143</h3><p>Access-check + DI findings on a real contrib MR.</p><a href="/r/example" data-example="1" class="btn btn-outline">View result</a></article>
-          <article class="card reveal"><h3>core MR · render array</h3><p>Missing cache contexts flagged on a public core change.</p><a href="/r/example" data-example="2" class="btn btn-outline">View result</a></article>
-          <article class="card reveal"><h3>contrib · deprecated API</h3><p>D10→D11 deprecation caught with the current replacement.</p><a href="/r/example" data-example="3" class="btn btn-outline">View result</a></article>
+          <article class="card reveal" style="grid-column: 1 / -1">
+            <h3>Preview the report format</h3>
+            <p>What a shared scan result will look like — severity, <code class="mono">file:line</code>, suggestion, one link you can drop in a Slack thread. (Sample data until the scanner is live; real runs from public MRs will replace it.)</p>
+            <a href="/r/example" class="btn btn-outline">View a sample report</a>
+          </article>
         </div>
 
-        <form class="cta-form" id="scanWaitlist" style="margin-top:28px;max-width:520px">
-          <input type="email" placeholder="you@agency.com" required aria-label="Email for scanner launch" />
-          <button type="submit" class="btn btn-accent">Notify me when it's live</button>
-        </form>
+        <div class="cta-form-wrap" style="margin-top:28px;margin-left:0;max-width:520px">
+          <form class="cta-form" id="scanWaitlist" method="post" target="_blank">
+            <input type="email" name="email" placeholder="you@agency.com" required aria-label="Email for scanner launch" />
+            <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <button type="submit" class="btn btn-accent">Notify me when it's live</button>
+          </form>
+          <label class="consent-row">
+            <input type="checkbox" required form="scanWaitlist" />
+            <span>Email me when the scanner is live (double opt-in, unsubscribe anytime). <a href="/privacy">Privacy</a>.</span>
+          </label>
+        </div>
         <p class="cta-meta">No code leaves your network — the scanner only runs on public URLs you paste.</p>
       </div>
     </section>
@@ -633,14 +704,44 @@ import Layout from '../layouts/Layout.astro';
       <div class="container cta-inner">
         <h2>Own your Drupal reviewer.</h2>
         <p>Grab the free core, or claim a founding Agency seat. Set up in an afternoon — or have us do it.</p>
-        <form class="cta-form" id="ctaForm">
-          <input type="email" placeholder="you@agency.com" required aria-label="Email" />
-          <button type="submit" class="btn">Get Drureview</button>
-        </form>
+        <div class="cta-form-wrap">
+          <form class="cta-form" id="ctaForm" method="post" target="_blank">
+            <input type="email" name="email" placeholder="you@agency.com" required aria-label="Email" />
+            <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <button type="submit" class="btn">Notify me at launch</button>
+          </form>
+          <label class="consent-row" style="color:rgba(255,255,255,.55)">
+            <input type="checkbox" required form="ctaForm" />
+            <span>Email me the launch announcement (double opt-in, unsubscribe anytime). <a href="/privacy">Privacy</a>.</span>
+          </label>
+        </div>
         <p class="cta-meta">Free core, no card · Founding seats limited · Drupal community priority</p>
       </div>
     </section>
   </main>
+
+
+  <!-- ===================== RESERVE MODAL ===================== -->
+  <div class="modal-overlay" id="reserveModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="reserveTitle">
+      <button class="modal-close" id="reserveClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <h3 id="reserveTitle">Reserve your price</h3>
+      <p class="modal-sub" id="reserveSub"></p>
+      <form class="cta-form" id="reserveForm" method="post" target="_blank">
+        <input type="email" name="email" placeholder="you@agency.com" required aria-label="Email" />
+        <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <input type="hidden" name="tag" id="reserveTag" value="reserve" />
+        <label class="consent-row">
+          <input type="checkbox" required />
+          <span>Email me the checkout link and launch updates (double opt-in, unsubscribe anytime). <a href="/privacy">Privacy</a>.</span>
+        </label>
+        <button type="submit" class="btn">Reserve — no charge now</button>
+      </form>
+      <p class="modal-note">Nothing is charged today. You get the checkout link by email at launch, at the price shown.</p>
+    </div>
+  </div>
 
 
   <!-- ===================== FOOTER ===================== -->
@@ -668,7 +769,7 @@ import Layout from '../layouts/Layout.astro';
         <div>
           <h5>Resources</h5>
           <ul>
-            <li><a href="#docs">Documentation</a></li>
+            <li><a href="/docs/">Documentation</a></li>
             <li><a href="#methodology">Benchmark methodology</a></li>
             <li><a href="#security">Security & compliance</a></li>
             <li><a href="#changelog">Changelog</a></li>
@@ -687,8 +788,8 @@ import Layout from '../layouts/Layout.astro';
       <div class="foot-bottom">
         <span>© 2026 Drureview · Drupal is a registered trademark of Dries Buytaert.</span>
         <span class="legal">
-          <a href="#privacy">Privacy</a>
-          <a href="#terms">Terms</a>
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
           <a href="#disclosure">Disclosure</a>
         </span>
       </div>
@@ -734,22 +835,72 @@ import Layout from '../layouts/Layout.astro';
     }, { rootMargin: '0px 0px -40px 0px', threshold: 0.05 });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    /* ===== CTA form (placeholder until backend wired) ===== */
-    document.getElementById('ctaForm').addEventListener('submit', e => {
-      e.preventDefault();
-      const input = e.currentTarget.querySelector('input');
-      const btn = e.currentTarget.querySelector('.btn');
-      input.value = '';
-      btn.textContent = '✓ On the list';
-    });
+    /* ===== Email capture — Buttondown ===============================
+       >>> PASTE the Buttondown username here (Bartek) <<<
+       One list, segmented by the hidden `tag` field:
+       scanner-waitlist · launch-notify · reserve-solo · reserve-agency-founding.
+       Until the username is set, every form falls back to a prefilled
+       mailto: so no signal is lost (it lands in the inbox instead). == */
+    const BUTTONDOWN_USERNAME = '';
+    const CONTACT = 'filipiuk.bartek@gmail.com';
 
-    /* ===== Scanner waitlist (placeholder until backend wired) ===== */
-    const sw = document.getElementById('scanWaitlist');
-    if (sw) sw.addEventListener('submit', e => {
-      e.preventDefault();
-      sw.querySelector('input').value = '';
-      sw.querySelector('.btn').textContent = '✓ On the list';
-    });
+    function wireEmailForm(form, tag) {
+      if (!form) return;
+      if (BUTTONDOWN_USERNAME) {
+        form.action = 'https://buttondown.com/api/emails/embed-subscribe/' + BUTTONDOWN_USERNAME;
+        if (!form.querySelector('input[name="tag"]')) {
+          const t = document.createElement('input');
+          t.type = 'hidden'; t.name = 'tag'; t.value = tag;
+          form.appendChild(t);
+        }
+        form.addEventListener('submit', e => {
+          if (form.querySelector('.hp-field').value) { e.preventDefault(); return; } // bot
+          const btn = form.querySelector('button[type="submit"]');
+          setTimeout(() => { btn.textContent = '✓ Check your inbox to confirm'; }, 150);
+        });
+      } else {
+        form.addEventListener('submit', e => {
+          e.preventDefault();
+          if (form.querySelector('.hp-field').value) return; // bot
+          const email = form.querySelector('input[type="email"]').value;
+          const t = form.querySelector('input[name="tag"]')?.value || tag;
+          location.href = 'mailto:' + CONTACT
+            + '?subject=' + encodeURIComponent('[drureview ' + t + '] ' + email)
+            + '&body=' + encodeURIComponent('Add me to the list: ' + email + ' (' + t + ')');
+          form.querySelector('button[type="submit"]').textContent = '✓ Thanks — send the email';
+        });
+      }
+    }
+    wireEmailForm(document.getElementById('scanWaitlist'), 'scanner-waitlist');
+    wireEmailForm(document.getElementById('ctaForm'), 'launch-notify');
+
+    /* ===== Reserve modal (until Stripe links are live) ===== */
+    const RESERVE_COPY = {
+      'solo': {
+        title: 'Reserve Solo — $39 one-time',
+        sub: "Solo isn't on sale yet. Drop your email and you'll get the checkout link the day it opens, at this price.",
+      },
+      'agency-founding': {
+        title: 'Reserve a founding Agency seat — $190',
+        sub: 'First 50 seats at $190 for life (then $290). We email the checkout link before public launch — your founding price is held.',
+      },
+    };
+    const reserveModal = document.getElementById('reserveModal');
+    const reserveForm = document.getElementById('reserveForm');
+    wireEmailForm(reserveForm, 'reserve');
+
+    function openReserve(slug) {
+      const copy = RESERVE_COPY[slug];
+      document.getElementById('reserveTitle').textContent = copy.title;
+      document.getElementById('reserveSub').textContent = copy.sub;
+      document.getElementById('reserveTag').value = 'reserve-' + slug;
+      reserveModal.hidden = false;
+      reserveModal.querySelector('input[type="email"]').focus();
+    }
+    function closeReserve() { reserveModal.hidden = true; }
+    document.getElementById('reserveClose').addEventListener('click', closeReserve);
+    reserveModal.addEventListener('click', e => { if (e.target === reserveModal) closeReserve(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && !reserveModal.hidden) closeReserve(); });
 
     /* ===== Founding seats counter (static until backend wired) ===== */
     const fl = document.getElementById('foundingLeft');
@@ -758,8 +909,9 @@ import Layout from '../layouts/Layout.astro';
     /* ===== Stripe Payment Links ====================================
        >>> PASTE PAYMENT LINKS HERE before launch <<<  (Bartek)
        Replace each '#' with the Stripe Payment Link URL
-       (https://buy.stripe.com/...). Until filled, a button falls back
-       to the #pricing section instead of a broken '#'. ============= */
+       (https://buy.stripe.com/...). Until filled:
+       Solo / Agency-founding → reserve modal (email + tier),
+       Site / Quickstart → mailto (org buyers want a human). ========= */
     const STRIPE = {
       'solo': '#',             // Solo $39 one-time
       'agency-founding': '#',  // Agency FOUNDING $190 one-time, qty-capped at 50
@@ -767,14 +919,34 @@ import Layout from '../layouts/Layout.astro';
       'site': '#',             // Site $1,250 one-time
       'svc-quickstart': '#',   // Quickstart $390 service
     };
+    const MAILTO_TIERS = {
+      'site': 'Drureview Site license ($1,250 one-time)',
+      'svc-quickstart': 'Drureview Quickstart session ($390)',
+    };
     document.querySelectorAll('[data-stripe]').forEach(a => {
-      const url = STRIPE[a.dataset.stripe];
-      if (url && url !== '#') {
-        a.setAttribute('href', url);
+      const slug = a.dataset.stripe;
+      const url = STRIPE[slug];
+      if (url && url !== '#') { a.setAttribute('href', url); return; }
+      if (RESERVE_COPY[slug]) {
+        a.setAttribute('href', '#');
+        a.addEventListener('click', e => { e.preventDefault(); openReserve(slug); });
+      } else if (MAILTO_TIERS[slug]) {
+        a.setAttribute('href', 'mailto:' + CONTACT + '?subject=' + encodeURIComponent(MAILTO_TIERS[slug]));
       } else {
         a.setAttribute('href', '#pricing');
         a.setAttribute('title', 'Checkout link coming at launch');
       }
+    });
+
+    /* ===== Hero "Get Drureview" → pulse the featured tier ===== */
+    document.querySelectorAll('a.btn[href="#pricing"]').forEach(a => {
+      a.addEventListener('click', () => {
+        const card = document.querySelector('.tier.featured');
+        if (!card) return;
+        card.classList.remove('pulse');
+        void card.offsetWidth;
+        card.classList.add('pulse');
+      });
     });
 
     apply();
